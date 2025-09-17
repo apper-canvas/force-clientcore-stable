@@ -75,21 +75,8 @@ const ContactForm = ({ contact, onSubmit, onCancel, isSubmitting = false }) => {
     }
   };
 
-  return (
-    <Card className="p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold text-primary">
-          {contact ? "Edit Contact" : "Add New Contact"}
-        </h2>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onCancel}
-          className="p-2"
-        >
-          <ApperIcon name="X" size={20} />
-        </Button>
-      </div>
+return (
+    <div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -207,8 +194,8 @@ const ContactForm = ({ contact, onSubmit, onCancel, isSubmitting = false }) => {
             {isSubmitting ? "Saving..." : (contact ? "Update Contact" : "Add Contact")}
           </Button>
         </div>
-      </form>
-    </Card>
+</form>
+    </div>
   );
 };
 
