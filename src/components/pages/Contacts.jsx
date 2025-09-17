@@ -234,9 +234,8 @@ return (
             onSubmit={handleSubmitContact}
             onCancel={handleCancelForm}
             isSubmitting={isSubmitting}
-          />
+/>
         </Modal>
-      </div>
       </div>
     </div>
   );
