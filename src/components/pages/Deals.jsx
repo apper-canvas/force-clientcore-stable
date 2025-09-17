@@ -251,10 +251,9 @@ const Deals = () => {
                     <div className="text-sm text-gray-600">Closed Won</div>
                   </div>
                 </div>
-              </Card>
+</Card>
             )}
           </>
-        )}
       </div>
     </div>
   );
