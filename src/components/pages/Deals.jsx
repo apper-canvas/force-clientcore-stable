@@ -5,6 +5,7 @@ import DealForm from "@/components/organisms/DealForm";
 import DealCard from "@/components/molecules/DealCard";
 import Card from "@/components/atoms/Card";
 import Button from "@/components/atoms/Button";
+import Modal from "@/components/atoms/Modal";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
@@ -12,7 +13,6 @@ import ApperIcon from "@/components/ApperIcon";
 import { dealService } from "@/services/api/dealService";
 import { contactService } from "@/services/api/contactService";
 import { toast } from "react-toastify";
-
 const Deals = () => {
   const { onMenuClick } = useOutletContext();
   
@@ -147,15 +147,19 @@ const Deals = () => {
       />
       
       <div className="p-6">
-        {showForm ? (
-          <div className="mb-8">
-            <DealForm
-              deal={editingDeal}
-              onSubmit={handleSubmitDeal}
-              onCancel={handleCancelForm}
-              isSubmitting={isSubmitting}
-            />
-          </div>
+<Modal
+          isOpen={showForm}
+          onClose={handleCancelForm}
+          title={editingDeal ? "Edit Deal" : "Add New Deal"}
+          size="md"
+        >
+          <DealForm
+            deal={editingDeal}
+            onSubmit={handleSubmitDeal}
+            onCancel={handleCancelForm}
+            isSubmitting={isSubmitting}
+          />
+        </Modal>
         ) : (
           <>
             {deals.length === 0 ? (
