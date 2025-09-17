@@ -6,10 +6,12 @@ import Card from "@/components/atoms/Card";
 import Badge from "@/components/atoms/Badge";
 
 const DealCard = ({ deal, contact, onEdit, onDelete, draggable = true }) => {
-  const formatCurrency = (amount) => {
+const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     }).format(amount);
   };
 
