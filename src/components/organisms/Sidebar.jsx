@@ -1,7 +1,8 @@
 import { NavLink } from "react-router-dom";
+import React from "react";
 import ApperIcon from "@/components/ApperIcon";
 
-const Sidebar = ({ isOpen, onClose }) => {
+const Sidebar = ({ isOpen, onClose, user, onLogout }) => {
   const navigation = [
     { name: "Dashboard", href: "/", icon: "BarChart3" },
     { name: "Contacts", href: "/contacts", icon: "Users" },
@@ -81,11 +82,28 @@ const Sidebar = ({ isOpen, onClose }) => {
             </button>
           </div>
           
-          <nav className="flex-1 px-4 pb-4 space-y-2">
+<nav className="flex-1 px-4 pb-4 space-y-2">
             {navigation.map((item) => (
               <NavItem key={item.name} item={item} />
             ))}
           </nav>
+          
+          {/* User Info and Logout */}
+          <div className="px-4 pb-4 border-t border-white/10 pt-4">
+            {user && (
+              <div className="text-white mb-3 text-sm">
+                <div className="font-medium">{user.firstName} {user.lastName}</div>
+                <div className="text-gray-300">{user.emailAddress}</div>
+              </div>
+            )}
+            <button
+              onClick={onLogout}
+              className="flex items-center w-full px-4 py-3 text-sm font-medium text-gray-300 hover:bg-white/10 hover:text-white rounded-lg transition-all duration-200"
+            >
+              <ApperIcon name="LogOut" size={20} className="mr-3" />
+              Logout
+            </button>
+          </div>
         </div>
       </div>
     </div>

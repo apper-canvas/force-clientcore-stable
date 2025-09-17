@@ -1,66 +1,183 @@
-import activitiesData from "@/services/mockData/activities.json";
-
-// Simulate API delays
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
 class ActivityService {
   constructor() {
-    this.activities = [...activitiesData];
-    this.nextId = Math.max(...this.activities.map(a => a.Id)) + 1;
+    this.tableName = 'activity_c';
+    this.apperClient = null;
+    this.updateableFields = [
+      'contact_id_c', 'deal_id_c', 'type_c', 
+      'description_c', 'date_c', 'user_id_c'
+    ];
+  }
+
+  getApperClient() {
+    if (!this.apperClient) {
+      const { ApperClient } = window.ApperSDK;
+      this.apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+    }
+    return this.apperClient;
   }
 
   async getAll() {
-    await delay(300);
-    return [...this.activities];
+    try {
+      const client = this.getApperClient();
+      const params = {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "contact_id_c"}},
+          {"field": {"Name": "deal_id_c"}},
+          {"field": {"Name": "type_c"}},
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "date_c"}},
+          {"field": {"Name": "user_id_c"}}
+        ],
+        orderBy: [{"fieldName": "date_c", "sorttype": "DESC"}]
+      };
+      
+      const response = await client.fetchRecords(this.tableName, params);
+      
+      if (!response.success) {
+        console.error("Failed to fetch activities:", response.message);
+        return [];
+      }
+      
+      return response.data || [];
+    } catch (error) {
+      console.error("Error fetching activities:", error?.response?.data?.message || error);
+      return [];
+    }
   }
 
   async getById(id) {
-    await delay(200);
-    const activity = this.activities.find(a => a.Id === id);
-    return activity ? { ...activity } : null;
+    try {
+      const client = this.getApperClient();
+      const params = {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "contact_id_c"}},
+          {"field": {"Name": "deal_id_c"}},
+          {"field": {"Name": "type_c"}},
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "date_c"}},
+          {"field": {"Name": "user_id_c"}}
+        ]
+      };
+      
+      const response = await client.getRecordById(this.tableName, id, params);
+      return response.data || null;
+    } catch (error) {
+      console.error(`Error fetching activity ${id}:`, error?.response?.data?.message || error);
+      return null;
+    }
   }
 
   async create(activityData) {
-    await delay(400);
-    const newActivity = {
-      ...activityData,
-      Id: this.nextId++,
-      userId: "user1",
-      contactId: parseInt(activityData.contactId),
-      dealId: activityData.dealId ? parseInt(activityData.dealId) : null
-    };
-    this.activities.unshift(newActivity);
-    return { ...newActivity };
+    try {
+      const client = this.getApperClient();
+      const params = {
+        records: [{
+          contact_id_c: parseInt(activityData.contact_id_c || activityData.contactId),
+          deal_id_c: activityData.deal_id_c || activityData.dealId ? parseInt(activityData.deal_id_c || activityData.dealId) : null,
+          type_c: activityData.type_c || activityData.type || "Call",
+          description_c: activityData.description_c || activityData.description || "",
+          date_c: activityData.date_c || activityData.date || new Date().toISOString(),
+          user_id_c: activityData.user_id_c || activityData.userId || "user1"
+        }]
+      };
+      
+      const response = await client.createRecord(this.tableName, params);
+      
+      if (!response.success) {
+        console.error("Failed to create activity:", response.message);
+        return null;
+      }
+      
+      if (response.results) {
+        const successful = response.results.filter(r => r.success);
+        const failed = response.results.filter(r => !r.success);
+        
+        if (failed.length > 0) {
+          console.error(`Failed to create ${failed.length} activities:`, failed);
+        }
+        return successful.length > 0 ? successful[0].data : null;
+      }
+      
+      return null;
+    } catch (error) {
+      console.error("Error creating activity:", error?.response?.data?.message || error);
+      return null;
+    }
   }
 
   async update(id, activityData) {
-    await delay(350);
-    const index = this.activities.findIndex(a => a.Id === id);
-    if (index === -1) {
-      throw new Error("Activity not found");
+    try {
+      const client = this.getApperClient();
+      const params = {
+        records: [{
+          Id: id,
+          contact_id_c: parseInt(activityData.contact_id_c || activityData.contactId),
+          deal_id_c: activityData.deal_id_c || activityData.dealId ? parseInt(activityData.deal_id_c || activityData.dealId) : null,
+          type_c: activityData.type_c || activityData.type || "Call",
+          description_c: activityData.description_c || activityData.description || "",
+          date_c: activityData.date_c || activityData.date || new Date().toISOString(),
+          user_id_c: activityData.user_id_c || activityData.userId || "user1"
+        }]
+      };
+      
+      const response = await client.updateRecord(this.tableName, params);
+      
+      if (!response.success) {
+        console.error("Failed to update activity:", response.message);
+        return null;
+      }
+      
+      if (response.results) {
+        const successful = response.results.filter(r => r.success);
+        const failed = response.results.filter(r => !r.success);
+        
+        if (failed.length > 0) {
+          console.error(`Failed to update ${failed.length} activities:`, failed);
+        }
+        return successful.length > 0 ? successful[0].data : null;
+      }
+      
+      return null;
+    } catch (error) {
+      console.error("Error updating activity:", error?.response?.data?.message || error);
+      return null;
     }
-    
-    const updatedActivity = {
-      ...this.activities[index],
-      ...activityData,
-      Id: id,
-      contactId: parseInt(activityData.contactId),
-      dealId: activityData.dealId ? parseInt(activityData.dealId) : null
-    };
-    
-    this.activities[index] = updatedActivity;
-    return { ...updatedActivity };
   }
 
   async delete(id) {
-    await delay(250);
-    const index = this.activities.findIndex(a => a.Id === id);
-    if (index === -1) {
-      throw new Error("Activity not found");
+    try {
+      const client = this.getApperClient();
+      const params = { 
+        RecordIds: [id]
+      };
+      
+      const response = await client.deleteRecord(this.tableName, params);
+      
+      if (!response.success) {
+        console.error("Failed to delete activity:", response.message);
+        return false;
+      }
+      
+      if (response.results) {
+        const successful = response.results.filter(r => r.success);
+        const failed = response.results.filter(r => !r.success);
+        
+        if (failed.length > 0) {
+          console.error(`Failed to delete ${failed.length} activities:`, failed);
+        }
+        return successful.length > 0;
+      }
+      
+      return true;
+    } catch (error) {
+      console.error("Error deleting activity:", error?.response?.data?.message || error);
+      return false;
     }
-    
-    this.activities.splice(index, 1);
-    return true;
   }
 }
 
