@@ -1,7 +1,8 @@
+import { format } from "date-fns";
+import React from "react";
+import ApperIcon from "@/components/ApperIcon";
 import Card from "@/components/atoms/Card";
 import Badge from "@/components/atoms/Badge";
-import ApperIcon from "@/components/ApperIcon";
-import { format } from "date-fns";
 
 const ActivityItem = ({ activity, contact, deal }) => {
   const getActivityIcon = (type) => {
@@ -46,13 +47,12 @@ const ActivityItem = ({ activity, contact, deal }) => {
         </div>
         
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
+<div className="flex items-center gap-2 mb-2">
             <Badge variant={getActivityColor(activity.type)}>{activity.type}</Badge>
             <span className="text-sm text-gray-500">
-              {format(new Date(activity.date), "MMM dd, yyyy 'at' h:mm a")}
+              {activity?.date ? format(new Date(activity.date), "MMM dd, yyyy 'at' h:mm a") : "Invalid date"}
             </span>
           </div>
-          
           <p className="text-primary font-medium mb-1">{activity.description}</p>
           
           <div className="flex items-center gap-4 text-sm text-gray-600">

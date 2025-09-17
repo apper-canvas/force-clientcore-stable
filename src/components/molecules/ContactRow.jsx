@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import Button from "@/components/atoms/Button";
-import StatusBadge from "@/components/molecules/StatusBadge";
-import ApperIcon from "@/components/ApperIcon";
 import { format } from "date-fns";
+import React from "react";
+import ApperIcon from "@/components/ApperIcon";
+import StatusBadge from "@/components/molecules/StatusBadge";
+import Button from "@/components/atoms/Button";
 
 const ContactRow = ({ contact, onEdit, onDelete }) => {
   const navigate = useNavigate();
@@ -34,11 +35,14 @@ const ContactRow = ({ contact, onEdit, onDelete }) => {
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <StatusBadge status={contact.status} />
+<td className="px-6 py-4 whitespace-nowrap">
+        <StatusBadge status={contact.status} />
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {contact.lastActivity ? format(new Date(contact.lastActivity), "MMM dd, yyyy") : "Never"}
-      </td>
-      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+        {contact.lastActivity 
+          ? format(new Date(contact.lastActivity), "MMM dd, yyyy")
+          : "Never"
+        }
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"

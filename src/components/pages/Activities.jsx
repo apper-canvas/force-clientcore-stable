@@ -13,7 +13,7 @@ import { activityService } from "@/services/api/activityService";
 import { contactService } from "@/services/api/contactService";
 import { dealService } from "@/services/api/dealService";
 import { toast } from "react-toastify";
-
+import { dateSafely } from "@/utils/dateUtils";
 const Activities = () => {
   const { onMenuClick } = useOutletContext();
   
@@ -80,9 +80,8 @@ const Activities = () => {
     if (typeFilter !== "All") {
       filtered = filtered.filter(activity => activity.type === typeFilter);
     }
-
-    // Sort by date descending (most recent first)
-    filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+// Sort by date descending (most recent first) with safe date handling
+    filtered.sort((a, b) => dateSafely(b.date) - dateSafely(a.date));
     
     setFilteredActivities(filtered);
   };

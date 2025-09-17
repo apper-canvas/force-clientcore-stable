@@ -1,8 +1,9 @@
+import { format } from "date-fns";
+import React from "react";
+import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import Badge from "@/components/atoms/Badge";
-import Button from "@/components/atoms/Button";
-import ApperIcon from "@/components/ApperIcon";
-import { format } from "date-fns";
 
 const DealCard = ({ deal, contact, onEdit, onDelete, draggable = true }) => {
   const formatCurrency = (amount) => {
@@ -55,9 +56,9 @@ const DealCard = ({ deal, contact, onEdit, onDelete, draggable = true }) => {
           </div>
         )}
         
-        <div className="flex items-center text-sm text-gray-600">
+<div className="flex items-center text-sm text-gray-600">
           <ApperIcon name="Calendar" size={14} className="mr-2" />
-          {format(new Date(deal.expectedCloseDate), "MMM dd, yyyy")}
+          {deal.expectedCloseDate ? format(new Date(deal.expectedCloseDate), "MMM dd, yyyy") : "No date set"}
         </div>
         
         {deal.notes && (

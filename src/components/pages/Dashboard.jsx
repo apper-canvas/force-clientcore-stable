@@ -14,7 +14,7 @@ import { contactService } from "@/services/api/contactService";
 import { dealService } from "@/services/api/dealService";
 import { activityService } from "@/services/api/activityService";
 import { toast } from "react-toastify";
-
+import { dateSafely } from "@/utils/dateUtils";
 const Dashboard = () => {
   const { onMenuClick } = useOutletContext();
   const navigate = useNavigate();
@@ -83,11 +83,9 @@ const Dashboard = () => {
   const getDealById = (id) => {
     return deals.find(deal => deal.Id === id);
   };
-
-  const recentDeals = deals
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+const recentDeals = deals
+    .sort((a, b) => dateSafely(b.createdAt) - dateSafely(a.createdAt))
     .slice(0, 3);
-
   if (loading) return <Loading type="cards" />;
   if (error) return <Error message={error} onRetry={loadDashboardData} />;
 
