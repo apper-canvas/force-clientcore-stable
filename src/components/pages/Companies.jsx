@@ -52,12 +52,14 @@ const Companies = () => {
     let filtered = companies;
 
     if (searchTerm) {
-      const term = searchTerm.toLowerCase();
+const term = searchTerm.toLowerCase();
       filtered = filtered.filter(company =>
         company.name_c?.toLowerCase().includes(term) ||
         company.Name?.toLowerCase().includes(term) ||
         company.city_c?.toLowerCase().includes(term) ||
         company.state_c?.toLowerCase().includes(term) ||
+        company.website_c?.toLowerCase().includes(term) ||
+        company.phone_c?.toLowerCase().includes(term) ||
         company.Tags?.toLowerCase().includes(term)
       );
     }

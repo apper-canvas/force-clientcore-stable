@@ -4,12 +4,16 @@ import Input from "@/components/atoms/Input";
 import { toast } from "react-toastify";
 
 const CompanyForm = ({ company, onSubmit, onCancel, isSubmitting }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     name_c: "",
     address_c: "",
     city_c: "",
     state_c: "",
     zip_c: "",
+    website_c: "",
+    phone_c: "",
+    number_of_employees_c: "",
+    annual_revenue_c: "",
     Tags: ""
   });
 
@@ -18,17 +22,21 @@ const CompanyForm = ({ company, onSubmit, onCancel, isSubmitting }) => {
   useEffect(() => {
     if (company) {
       setFormData({
-        name_c: company.name_c || "",
+name_c: company.name_c || "",
         address_c: company.address_c || "",
         city_c: company.city_c || "",
         state_c: company.state_c || "",
         zip_c: company.zip_c || "",
+        website_c: company.website_c || "",
+        phone_c: company.phone_c || "",
+        number_of_employees_c: company.number_of_employees_c || "",
+        annual_revenue_c: company.annual_revenue_c || "",
         Tags: company.Tags || ""
       });
     }
   }, [company]);
 
-  const validateForm = () => {
+const validateForm = () => {
     const newErrors = {};
 
     if (!formData.name_c.trim()) {
@@ -43,6 +51,27 @@ const CompanyForm = ({ company, onSubmit, onCancel, isSubmitting }) => {
       newErrors.state_c = "State is required";
     }
 
+    if (formData.website_c && !isValidUrl(formData.website_c)) {
+      newErrors.website_c = "Please enter a valid website URL";
+    }
+
+    if (formData.number_of_employees_c && (isNaN(formData.number_of_employees_c) || formData.number_of_employees_c < 0)) {
+      newErrors.number_of_employees_c = "Please enter a valid number of employees";
+    }
+
+    if (formData.annual_revenue_c && (isNaN(formData.annual_revenue_c) || formData.annual_revenue_c < 0)) {
+      newErrors.annual_revenue_c = "Please enter a valid annual revenue";
+    }
+
+  };
+
+  const isValidUrl = (string) => {
+    try {
+      new URL(string.startsWith('http') ? string : `https://${string}`);
+      return true;
+    } catch (_) {
+      return false;
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -137,7 +166,49 @@ const CompanyForm = ({ company, onSubmit, onCancel, isSubmitting }) => {
           value={formData.Tags}
           onChange={handleInputChange}
           placeholder="Enter tags (comma separated)"
-          error={errors.Tags}
+error={errors.Tags}
+        />
+
+        <Input
+          label="Website"
+          type="url"
+          name="website_c"
+          value={formData.website_c}
+          onChange={handleInputChange}
+          placeholder="https://company.com"
+          error={errors.website_c}
+        />
+
+        <Input
+          label="Phone"
+          type="tel"
+          name="phone_c"
+          value={formData.phone_c}
+          onChange={handleInputChange}
+          placeholder="+1 (555) 123-4567"
+          error={errors.phone_c}
+        />
+
+        <Input
+          label="Number of Employees"
+          type="number"
+          name="number_of_employees_c"
+          value={formData.number_of_employees_c}
+          onChange={handleInputChange}
+          placeholder="50"
+          min="0"
+          error={errors.number_of_employees_c}
+        />
+
+        <Input
+          label="Annual Revenue"
+          type="number"
+          name="annual_revenue_c"
+          value={formData.annual_revenue_c}
+          onChange={handleInputChange}
+          placeholder="1000000"
+          min="0"
+          error={errors.annual_revenue_c}
         />
       </div>
 

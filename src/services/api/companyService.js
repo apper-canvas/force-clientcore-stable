@@ -2,8 +2,9 @@ class CompanyService {
   constructor() {
     this.tableName = 'company_c';
     this.apperClient = null;
-    this.updateableFields = [
-      'Name', 'Tags', 'name_c', 'address_c', 'city_c', 'state_c', 'zip_c'
+this.updateableFields = [
+      'Name', 'Tags', 'name_c', 'address_c', 'city_c', 'state_c', 'zip_c', 
+      'website_c', 'phone_c', 'number_of_employees_c', 'annual_revenue_c'
     ];
   }
 
@@ -22,7 +23,7 @@ class CompanyService {
     try {
       const client = this.getApperClient();
       const params = {
-        fields: [
+fields: [
           {"field": {"Name": "Name"}},
           {"field": {"Name": "Tags"}},
           {"field": {"Name": "Owner"}},
@@ -34,7 +35,11 @@ class CompanyService {
           {"field": {"Name": "address_c"}},
           {"field": {"Name": "city_c"}},
           {"field": {"Name": "state_c"}},
-          {"field": {"Name": "zip_c"}}
+          {"field": {"Name": "zip_c"}},
+          {"field": {"Name": "website_c"}},
+          {"field": {"Name": "phone_c"}},
+          {"field": {"Name": "number_of_employees_c"}},
+          {"field": {"Name": "annual_revenue_c"}}
         ],
         orderBy: [{"fieldName": "Id", "sorttype": "DESC"}]
       };
@@ -57,7 +62,7 @@ class CompanyService {
     try {
       const client = this.getApperClient();
       const params = {
-        fields: [
+fields: [
           {"field": {"Name": "Name"}},
           {"field": {"Name": "Tags"}},
           {"field": {"Name": "Owner"}},
@@ -69,7 +74,11 @@ class CompanyService {
           {"field": {"Name": "address_c"}},
           {"field": {"Name": "city_c"}},
           {"field": {"Name": "state_c"}},
-          {"field": {"Name": "zip_c"}}
+          {"field": {"Name": "zip_c"}},
+          {"field": {"Name": "website_c"}},
+          {"field": {"Name": "phone_c"}},
+          {"field": {"Name": "number_of_employees_c"}},
+          {"field": {"Name": "annual_revenue_c"}}
         ]
       };
       
@@ -86,13 +95,17 @@ class CompanyService {
       const client = this.getApperClient();
       const params = {
         records: [{
-          Name: companyData.Name || companyData.name || "",
+Name: companyData.Name || companyData.name || "",
           Tags: companyData.Tags || companyData.tags || "",
           name_c: companyData.name_c || companyData.name || "",
           address_c: companyData.address_c || companyData.address || "",
           city_c: companyData.city_c || companyData.city || "",
           state_c: companyData.state_c || companyData.state || "",
-          zip_c: companyData.zip_c || companyData.zip || ""
+          zip_c: companyData.zip_c || companyData.zip || "",
+          website_c: companyData.website_c || "",
+          phone_c: companyData.phone_c || "",
+          number_of_employees_c: companyData.number_of_employees_c ? parseInt(companyData.number_of_employees_c) : null,
+          annual_revenue_c: companyData.annual_revenue_c ? parseInt(companyData.annual_revenue_c) : null
         }]
       };
       
@@ -126,13 +139,17 @@ class CompanyService {
       const params = {
         records: [{
           Id: id,
-          Name: companyData.Name || companyData.name || "",
+Name: companyData.Name || companyData.name || "",
           Tags: companyData.Tags || companyData.tags || "",
           name_c: companyData.name_c || companyData.name || "",
           address_c: companyData.address_c || companyData.address || "",
           city_c: companyData.city_c || companyData.city || "",
           state_c: companyData.state_c || companyData.state || "",
-          zip_c: companyData.zip_c || companyData.zip || ""
+          zip_c: companyData.zip_c || companyData.zip || "",
+          website_c: companyData.website_c || "",
+          phone_c: companyData.phone_c || "",
+          number_of_employees_c: companyData.number_of_employees_c ? parseInt(companyData.number_of_employees_c) : null,
+          annual_revenue_c: companyData.annual_revenue_c ? parseInt(companyData.annual_revenue_c) : null
         }]
       };
       
