@@ -3,9 +3,10 @@ import React from "react";
 import ApperIcon from "@/components/ApperIcon";
 
 const Sidebar = ({ isOpen, onClose, user, onLogout }) => {
-  const navigation = [
+const navigation = [
     { name: "Dashboard", href: "/", icon: "BarChart3" },
     { name: "Contacts", href: "/contacts", icon: "Users" },
+    { name: "Companies", href: "/companies", icon: "Building" },
     { name: "Deals", href: "/deals", icon: "DollarSign" },
     { name: "Activities", href: "/activities", icon: "Activity" },
   ];
