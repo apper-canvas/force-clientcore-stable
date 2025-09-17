@@ -37,14 +37,26 @@ class DealService {
         orderBy: [{"fieldName": "Id", "sorttype": "DESC"}]
       };
       
-      const response = await client.fetchRecords(this.tableName, params);
+const response = await client.fetchRecords(this.tableName, params);
       
       if (!response.success) {
         console.error("Failed to fetch deals:", response.message);
         return [];
       }
       
-      return response.data || [];
+      // Transform database field names to UI field names for compatibility
+      const transformedData = (response.data || []).map(deal => ({
+        ...deal,
+        title: deal.title_c || deal.title || "",
+        contactId: deal.contact_id_c || deal.contactId,
+        value: deal.value_c || deal.value || 0,
+        stage: deal.stage_c || deal.stage || "Lead",
+        probability: deal.probability_c || deal.probability || 0,
+        expectedCloseDate: deal.expected_close_date_c || deal.expectedCloseDate,
+        notes: deal.notes_c || deal.notes || ""
+      }));
+      
+      return transformedData;
     } catch (error) {
       console.error("Error fetching deals:", error?.response?.data?.message || error);
       return [];

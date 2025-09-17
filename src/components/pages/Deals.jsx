@@ -104,8 +104,8 @@ const Deals = () => {
     setEditingDeal(null);
   };
 
-  const getDealsByStage = (stage) => {
-    return deals.filter(deal => deal.stage === stage);
+const getDealsByStage = (stage) => {
+    return deals.filter(deal => (deal.stage_c || deal.stage) === stage);
   };
 
   const getContactById = (id) => {

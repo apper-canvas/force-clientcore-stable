@@ -78,14 +78,17 @@ const DealForm = ({ deal, onSubmit, onCancel, isSubmitting = false }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
       const dealData = {
-        ...formData,
-        value: parseFloat(formData.value),
-        probability: parseInt(formData.probability),
-        expectedCloseDate: new Date(formData.expectedCloseDate).toISOString()
+        title_c: formData.title,
+        contact_id_c: parseInt(formData.contactId),
+        value_c: parseFloat(formData.value),
+        stage_c: formData.stage,
+        probability_c: parseInt(formData.probability),
+        expected_close_date_c: new Date(formData.expectedCloseDate).toISOString(),
+        notes_c: formData.notes
       };
       onSubmit(dealData);
     }
