@@ -34,15 +34,15 @@ const ContactRow = ({ contact, onEdit, onDelete }) => {
         <div className="text-sm text-primary">{contact.phone}</div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <StatusBadge status={contact.status} />
-<td className="px-6 py-4 whitespace-nowrap">
-        <StatusBadge status={contact.status} />
+<StatusBadge status={contact.status} />
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         {contact.lastActivity 
           ? format(new Date(contact.lastActivity), "MMM dd, yyyy")
           : "Never"
         }
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
