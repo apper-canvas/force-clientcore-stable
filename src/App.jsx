@@ -10,6 +10,7 @@ import ContactDetail from "@/components/pages/ContactDetail";
 import Companies from "@/components/pages/Companies";
 import Deals from "@/components/pages/Deals";
 import Activities from "@/components/pages/Activities";
+import Quotes from "@/components/pages/Quotes";
 import Login from "@/components/pages/Login";
 import Signup from "@/components/pages/Signup";
 import Callback from "@/components/pages/Callback";
@@ -117,12 +118,13 @@ function AppRoutes() {
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/prompt-password/:appId/:emailAddress/:provider" element={<PromptPassword />} />
         <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
-        <Route path="/" element={<Layout />}>
+<Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="contacts" element={<Contacts />} />
           <Route path="contacts/:id" element={<ContactDetail />} />
 <Route path="companies" element={<Companies />} />
           <Route path="deals" element={<Deals />} />
+          <Route path="quotes" element={<Quotes />} />
           <Route path="activities" element={<Activities />} />
         </Route>
       </Routes>
