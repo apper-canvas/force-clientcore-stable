@@ -59,10 +59,12 @@ const validateForm = () => {
       newErrors.number_of_employees_c = "Please enter a valid number of employees";
     }
 
-    if (formData.annual_revenue_c && (isNaN(formData.annual_revenue_c) || formData.annual_revenue_c < 0)) {
+if (formData.annual_revenue_c && (isNaN(formData.annual_revenue_c) || formData.annual_revenue_c < 0)) {
       newErrors.annual_revenue_c = "Please enter a valid annual revenue";
     }
 
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const isValidUrl = (string) => {
@@ -72,8 +74,6 @@ const validateForm = () => {
     } catch (_) {
       return false;
     }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
   };
 
   const handleInputChange = (e) => {
